@@ -93,16 +93,16 @@ document.addEventListener('DOMContentLoaded', function() {
             startPage = Math.max(endPage - visiblePages + 1, 1);
         }
     
-        // First page button
+        // First page button (<<)
         const firstButton = document.createElement('button');
-        firstButton.textContent = 'First';
+        firstButton.innerHTML = '&laquo;'; // << symbol
         firstButton.disabled = currentPage === 1;
         firstButton.addEventListener('click', () => displayPage(1));
         pagination.appendChild(firstButton);
     
-        // Previous button
+        // Previous button (<)
         const prevButton = document.createElement('button');
-        prevButton.textContent = 'Previous';
+        prevButton.innerHTML = '&lt;'; // < symbol
         prevButton.disabled = currentPage === 1;
         prevButton.addEventListener('click', () => displayPage(currentPage - 1));
         pagination.appendChild(prevButton);
@@ -118,20 +118,21 @@ document.addEventListener('DOMContentLoaded', function() {
             pagination.appendChild(pageButton);
         }
     
-        // Next button
+        // Next button (>)
         const nextButton = document.createElement('button');
-        nextButton.textContent = 'Next';
+        nextButton.innerHTML = '&gt;'; // > symbol
         nextButton.disabled = currentPage === totalPages;
         nextButton.addEventListener('click', () => displayPage(currentPage + 1));
         pagination.appendChild(nextButton);
     
-        // Last page button
+        // Last page button (>>)
         const lastButton = document.createElement('button');
-        lastButton.textContent = 'Last';
+        lastButton.innerHTML = '&raquo;'; // >> symbol
         lastButton.disabled = currentPage === totalPages;
         lastButton.addEventListener('click', () => displayPage(totalPages));
         pagination.appendChild(lastButton);
     }
+    
     
 
     fetchAllListings(); // Start by fetching all listings

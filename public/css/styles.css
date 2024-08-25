@@ -11,14 +11,14 @@ body {
 button {
     margin-right: 10px;
     padding: 10px 20px;
-    background-color: #007BFF;
-    color: white;
+    background-color: #7b04a3;
+    color: #f4f4f4;
     border: none;
     cursor: pointer;
 }
 
 button:hover {
-    background-color: #0056b3;
+    background-color: #7b04a3;
 }
 
 pre {
@@ -27,4 +27,76 @@ pre {
     border-radius: 5px;
     margin-top: 20px;
     overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+th, td {
+    padding: 8px;
+    border: 1px solid #ddd;
+}
+th {
+    background-color: #f4f4f4;
+}
+.expanded {
+    display: none;
+    padding: 10px;
+    background-color: #f9f9f9;
+}
+.expanded.visible {
+    display: table-row;
+}
+.loading {
+    display: none;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}
+.loading.active {
+    display: block;
+}
+
+.pagination {
+display: flex;
+justify-content: center;
+margin-top: 20px;
+/*flex-wrap: wrap; Allows wrapping if needed */
+gap: 8px;
+}
+
+.pagination button {
+padding: 5px 10px;
+margin: 0 2px;
+border: none;
+background-color: #7b04a3;
+color: #f4f4f4;
+cursor: pointer;
+/*flex: 1 1 auto; /* Allow buttons to shrink and grow */
+font-size: 14px; /* Smaller font size */
+}
+
+.pagination button:disabled {
+background-color: #f4f4f4cd;
+cursor: not-allowed;
+}
+
+.pagination button.active {
+background-color: #6e0491b1;
+}
+
+.pagination button:first-child,    /* << button */
+.pagination button:nth-child(2),   /* < button */
+.pagination button:nth-last-child(2), /* > button */
+.pagination button:last-child {    /* >> button */
+    border-radius: 50%; /* Make these buttons round */
+    padding: 5px; /* Adjust padding for round buttons */
+    width: 32px; /* Ensure round shape */
+    height: 32px; /* Ensure round shape */
 }
