@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     const loading = document.getElementById('loading');
     const pagination = document.getElementById('pagination');
-    const itemsPerPage = 20; // Number of items to display per page
+    const itemsPerPage = 30; // Number of items to display per page
     let listings = []; // This will hold all the listings
     let currentPage = 1;
 
@@ -83,14 +83,32 @@ document.addEventListener('DOMContentLoaded', function() {
     function updatePagination() {
         const totalPages = Math.ceil(listings.length / itemsPerPage);
         pagination.innerHTML = ''; // Clear existing pagination buttons
-
+    
+        const visiblePages = 5; // Number of page buttons to display at a time
+        let startPage = Math.max(currentPage - Math.floor(visiblePages / 2), 1);
+        let endPage = Math.min(startPage + visiblePages - 1, totalPages);
+    
+        // Adjust start and end pages if we're near the end
+        if (endPage - startPage < visiblePages - 1) {
+            startPage = Math.max(endPage - visiblePages + 1, 1);
+        }
+    
+        // First page button
+        const firstButton = document.createElement('button');
+        firstButton.textContent = 'First';
+        firstButton.disabled = currentPage === 1;
+        firstButton.addEventListener('click', () => displayPage(1));
+        pagination.appendChild(firstButton);
+    
+        // Previous button
         const prevButton = document.createElement('button');
         prevButton.textContent = 'Previous';
         prevButton.disabled = currentPage === 1;
         prevButton.addEventListener('click', () => displayPage(currentPage - 1));
         pagination.appendChild(prevButton);
-
-        for (let i = 1; i <= totalPages; i++) {
+    
+        // Page number buttons
+        for (let i = startPage; i <= endPage; i++) {
             const pageButton = document.createElement('button');
             pageButton.textContent = i;
             if (i === currentPage) {
@@ -99,13 +117,22 @@ document.addEventListener('DOMContentLoaded', function() {
             pageButton.addEventListener('click', () => displayPage(i));
             pagination.appendChild(pageButton);
         }
-
+    
+        // Next button
         const nextButton = document.createElement('button');
         nextButton.textContent = 'Next';
         nextButton.disabled = currentPage === totalPages;
         nextButton.addEventListener('click', () => displayPage(currentPage + 1));
         pagination.appendChild(nextButton);
+    
+        // Last page button
+        const lastButton = document.createElement('button');
+        lastButton.textContent = 'Last';
+        lastButton.disabled = currentPage === totalPages;
+        lastButton.addEventListener('click', () => displayPage(totalPages));
+        pagination.appendChild(lastButton);
     }
+    
 
     fetchAllListings(); // Start by fetching all listings
 });
