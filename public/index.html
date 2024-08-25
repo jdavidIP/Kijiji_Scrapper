@@ -5,12 +5,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rental Scraper</title>
     <link rel="stylesheet" href="css/styles.css">
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 8px;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        .expanded {
+            display: none;
+            padding: 10px;
+            background-color: #f9f9f9;
+        }
+        .expanded.visible {
+            display: table-row;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
-        <h1>Rental Scraper</h1>
+        <h1>Kijiji Rental Scraper - Kitchener / Waterloo</h1>
         <button id="scrapeKijijiBtn">Scrape Kijiji</button>
-        <pre id="result"></pre>
+        <table id="listingsTable">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Price</th>
+                    <th>Bathrooms</th>
+                    <th>Bedrooms</th>
+                    <th>Location</th>
+                    <th>Details</th>
+                </tr>
+            </thead>
+            <tbody id="listingsBody"></tbody>
+        </table>
     </div>
     <script src="js/scripts.js"></script>
 </body>
