@@ -25,25 +25,41 @@
         .expanded.visible {
             display: table-row;
         }
+        .loading {
+            display: none;
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+        }
+        .loading.active {
+            display: block;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Kijiji Rental Scraper - Kitchener / Waterloo</h1>
-        <button id="scrapeKijijiBtn">Scrape Kijiji</button>
+        <div id="loading" class="loading">Loading...</div>
+        <div id="progress"></div> <!-- Progress display -->
         <table id="listingsTable">
             <thead>
                 <tr>
                     <th>Title</th>
                     <th>Price</th>
-                    <th>Bathrooms</th>
                     <th>Bedrooms</th>
+                    <th>Bathrooms</th>
                     <th>Location</th>
                     <th>Details</th>
                 </tr>
             </thead>
             <tbody id="listingsBody"></tbody>
         </table>
+        <div id="totalListings"></div> <!-- Total listings display -->
     </div>
     <script src="js/scripts.js"></script>
 </body>

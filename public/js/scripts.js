@@ -1,4 +1,9 @@
-document.getElementById('scrapeKijijiBtn').addEventListener('click', function() {
+document.addEventListener('DOMContentLoaded', function() {
+    const loading = document.getElementById('loading');
+    const totalListings = document.getElementById('totalListings');
+
+    loading.classList.add('active'); // Show loading spinner
+
     fetch('../api/kijiji.php')
         .then(response => {
             if (!response.ok) {
@@ -25,8 +30,8 @@ document.getElementById('scrapeKijijiBtn').addEventListener('click', function() 
                 tr.innerHTML = `
                     <td>${listing.title}</td>
                     <td>${listing.price}</td>
-                    <td>${listing.bathrooms}</td>
                     <td>${listing.bedrooms}</td>
+                    <td>${listing.bathrooms}</td>
                     <td>${listing.location}</td>
                     <td><button class="toggleDetails" data-index="${index}">Show Details</button></td>
                 `;
@@ -53,8 +58,13 @@ document.getElementById('scrapeKijijiBtn').addEventListener('click', function() 
                     this.textContent = trExpanded.classList.contains('visible') ? 'Hide Details' : 'Show Details';
                 });
             });
+
+            totalListings.textContent = `Total listings scraped: ${listings.length}`;
         })
         .catch(error => {
             console.error('There has been a problem with your fetch operation:', error);
+        })
+        .finally(() => {
+            loading.classList.remove('active'); // Hide loading spinner
         });
 });

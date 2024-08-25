@@ -1,4 +1,5 @@
 <?php
+ini_set('max_execution_time', 800);
 function scrapeKijiji() {
     $node_path = __DIR__ . '/nodejs/node.exe';
     $output = [];
