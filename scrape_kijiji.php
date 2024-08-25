@@ -1,6 +1,6 @@
 <?php
 function scrapeKijiji() {
-    $node_path = __DIR__ . '/nodejs/node.exe'; // Adjust path separator for cross-platform compatibility
+    $node_path = __DIR__ . '/nodejs/node.exe';
     $output = [];
     $retval = null;
 
@@ -20,7 +20,6 @@ function scrapeKijiji() {
     // Join the output lines into a single string
     $outputString = implode("\n", $output);
 
-    // Try to decode the JSON output
     $listings = json_decode($outputString, true);
 
     // If decoding fails, return an error
