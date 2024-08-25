@@ -82,14 +82,30 @@ document.addEventListener('DOMContentLoaded', function() {
     // Update the pagination buttons
     function updatePagination() {
         const totalPages = Math.ceil(listings.length / itemsPerPage);
-        pagination.innerHTML = `
-            <button ${currentPage === 1 ? 'disabled' : ''} onclick="displayPage(${currentPage - 1})">Previous</button>
-            ${[...Array(totalPages).keys()].map(i => 
-                `<button ${currentPage === i + 1 ? 'class="active"' : ''} onclick="displayPage(${i + 1})">${i + 1}</button>`).join('')}
-            <button ${currentPage === totalPages ? 'disabled' : ''} onclick="displayPage(${currentPage + 1})">Next</button>
-        `;
+        pagination.innerHTML = ''; // Clear existing pagination buttons
+
+        const prevButton = document.createElement('button');
+        prevButton.textContent = 'Previous';
+        prevButton.disabled = currentPage === 1;
+        prevButton.addEventListener('click', () => displayPage(currentPage - 1));
+        pagination.appendChild(prevButton);
+
+        for (let i = 1; i <= totalPages; i++) {
+            const pageButton = document.createElement('button');
+            pageButton.textContent = i;
+            if (i === currentPage) {
+                pageButton.classList.add('active');
+            }
+            pageButton.addEventListener('click', () => displayPage(i));
+            pagination.appendChild(pageButton);
+        }
+
+        const nextButton = document.createElement('button');
+        nextButton.textContent = 'Next';
+        nextButton.disabled = currentPage === totalPages;
+        nextButton.addEventListener('click', () => displayPage(currentPage + 1));
+        pagination.appendChild(nextButton);
     }
 
     fetchAllListings(); // Start by fetching all listings
-
 });
