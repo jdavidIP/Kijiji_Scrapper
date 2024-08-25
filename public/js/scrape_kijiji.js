@@ -92,8 +92,8 @@ async function scrapeAllListings(totalPages, batchSize) {
 }
 
 // Define the total number of pages and batch size
-const TOTAL_PAGES = 40;
-const BATCH_SIZE = 10; 
+const TOTAL_PAGES = 3;
+const BATCH_SIZE = 3; 
 
 // Run the scraper and log the output
 scrapeAllListings(TOTAL_PAGES, BATCH_SIZE)
