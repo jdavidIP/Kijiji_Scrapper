@@ -5,47 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rental Scraper</title>
     <link rel="stylesheet" href="css/styles.css">
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            padding: 8px;
-            border: 1px solid #ddd;
-        }
-        th {
-            background-color: #f4f4f4;
-        }
-        .expanded {
-            display: none;
-            padding: 10px;
-            background-color: #f9f9f9;
-        }
-        .expanded.visible {
-            display: table-row;
-        }
-        .loading {
-            display: none;
-            position: fixed;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            background-color: rgba(255, 255, 255, 0.8);
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.2);
-        }
-        .loading.active {
-            display: block;
-        }
-    </style>
 </head>
 <body>
     <div class="container">
         <h1>Kijiji Rental Scraper - Kitchener / Waterloo</h1>
         <div id="loading" class="loading">Loading...</div>
-        <div id="progress"></div> <!-- Progress display -->
         <table id="listingsTable">
             <thead>
                 <tr>
@@ -59,7 +23,7 @@
             </thead>
             <tbody id="listingsBody"></tbody>
         </table>
-        <div id="totalListings"></div> <!-- Total listings display -->
+        <div id="pagination" class="pagination"></div>
     </div>
     <script src="js/scripts.js"></script>
 </body>
