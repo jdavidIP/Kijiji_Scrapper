@@ -1,0 +1,125 @@
+/* styles.css */
+
+/* Basic reset for consistent styling across browsers */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+header h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+header p {
+    font-size: 14px;
+    color: #777;
+    margin-bottom: 20px;
+}
+
+/* Location, Area, Unit Type Titles */
+.location, .area, .unitType {
+    margin-bottom: 20px;
+}
+
+.location-title, .area-title, .unitType-title {
+    font-weight: bold;
+    font-size: 18px;
+    color: #0056b3;
+    cursor: pointer;
+}
+
+.area-title {
+    margin-left: 20px;
+}
+
+.unitType-title {
+    margin-left: 40px;
+}
+
+/* Average Price Display */
+.location-title span, .area-title span, .unitType-title span {
+    font-weight: normal;
+    font-size: 14px;
+    color: #555;
+    margin-left: 10px;
+}
+
+/* Filter Section */
+.filters-container {
+    margin-left: 60px;
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.filters-container label {
+    font-weight: bold;
+    font-size: 14px;
+    margin-right: 5px;
+}
+
+.filters-container select {
+    padding: 5px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+/* Filtered Price Display */
+.filtered-price {
+    margin-top: 10px;
+    font-weight: bold;
+    color: #d9534f;
+    display: block;
+}
+
+/* Buttons for applying and clearing filters */
+.apply-button, .clear-button {
+    padding: 5px 10px;
+    font-size: 14px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.apply-button {
+    background-color: #28a745;
+    color: #fff;
+    margin-right: 10px;
+}
+
+.clear-button {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+/* Hover effects for better UX */
+.location-title:hover, .area-title:hover, .unitType-title:hover {
+    text-decoration: underline;
+}
+
+select:focus {
+    border-color: #0056b3;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 86, 179, 0.5);
+}

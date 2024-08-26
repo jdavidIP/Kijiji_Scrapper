@@ -3,15 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Analysis - Rental Insights</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <title>Rental Price Analysis</title>
+    <link rel="stylesheet" href="css/styles_analysis.css">
 </head>
 <body>
     <div class="container">
-        <h1>Rental Listings Analysis</h1>
-        <div id="insights"></div>
-        <button id="backButton">Back to Listings</button>
+        <header>
+            <h1>Rental Price Analysis</h1>
+            <p>Select a location, area, and unit type to see the average rental prices. Adjust filters to refine your search.</p>
+        </header>
+
+        <div id="location-container">
+            <!-- The dropdowns and prices will be dynamically populated here -->
+        </div>
     </div>
+
     <script src="js/analysis.js"></script>
 </body>
 </html>
