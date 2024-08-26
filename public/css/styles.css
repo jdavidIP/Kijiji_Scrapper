@@ -103,3 +103,24 @@ background-color: #6e0491b1;
     width: 32px; /* Ensure round shape */
     height: 32px; /* Ensure round shape */
 }
+
+.filters {
+    margin-bottom: 20px;
+}
+
+.filters label {
+    margin-right: 10px;
+}
+
+.filters select, .filters input {
+    margin-right: 20px;
+    padding: 5px;
+}
+
+.filters button {
+    padding: 5px 15px;
+    background-color: #7b04a3;
+    color: #f4f4f4;
+    border: none;
+    cursor: pointer;
+}

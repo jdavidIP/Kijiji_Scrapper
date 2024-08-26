@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const pagination = document.getElementById('pagination');
     const itemsPerPage = 30; // Number of items to display per page
     let listings = []; // This will hold all the listings
+    let filteredListings = []; // This will hold filtered listings
     let currentPage = 1;
 
     // Fetch all listings from the backend
@@ -22,6 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
 
                 listings = data.data.data;
+                filteredListings = listings; // Initially, all listings are shown
                 displayPage(1); // Display the first page
             })
             .catch(error => {
@@ -32,11 +34,39 @@ document.addEventListener('DOMContentLoaded', function() {
             });
     }
 
+    // Apply filters
+    function applyFilters() {
+        const bedrooms = document.getElementById('bedrooms').value;
+        const bathrooms = document.getElementById('bathrooms').value;
+        const maxPrice = document.getElementById('price').value;
+        const location = document.getElementById('location').value.toLowerCase();
+        const area = document.getElementById('area').value.toLowerCase();
+        const pets = document.getElementById('pets').value;
+        const unitType = document.getElementById('unitType').value;
+        const parking = document.getElementById('parking').value;
+
+        filteredListings = listings.filter(listing => {
+            const listingPrice = parseFloat(listing.price.replace(/[$,]/g, ''));
+            return (
+                (bedrooms === "" || Math.floor(listing.bedrooms) == bedrooms) &&
+                (bathrooms === "" || Math.floor(listing.bathrooms) == bathrooms) &&
+                (maxPrice === "" || listingPrice <= parseFloat(maxPrice)) &&
+                (location === "" || listing.location.toLowerCase().includes(location)) &&
+                (area === "" || listing.area.toLowerCase().includes(area)) &&
+                (pets === "" || listing.petsFriendly.toLowerCase() === pets.toLowerCase()) &&
+                (unitType === "" || listing.unitType.toLowerCase() === unitType.toLowerCase()) &&
+                (parking === "" || listing.parking === parking)
+            );
+        });
+
+        displayPage(1); // Reset to the first page after filtering
+    }
+
     // Display a specific page of listings
     function displayPage(pageNum) {
         const startIndex = (pageNum - 1) * itemsPerPage;
         const endIndex = startIndex + itemsPerPage;
-        const pageListings = listings.slice(startIndex, endIndex);
+        const pageListings = filteredListings.slice(startIndex, endIndex);
 
         const tbody = document.getElementById('listingsBody');
         tbody.innerHTML = ''; // Clear any existing rows
@@ -46,8 +76,8 @@ document.addEventListener('DOMContentLoaded', function() {
             tr.innerHTML = `
                 <td>${listing.title}</td>
                 <td>${listing.price}</td>
-                <td>${listing.bathrooms}</td>
                 <td>${listing.bedrooms}</td>
+                <td>${listing.bathrooms}</td>
                 <td>${listing.location}</td>
                 <td><button class="toggleDetails" data-index="${startIndex + index}">Show Details</button></td>
             `;
@@ -81,7 +111,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Update the pagination buttons
     function updatePagination() {
-        const totalPages = Math.ceil(listings.length / itemsPerPage);
+        const totalPages = Math.ceil(filteredListings.length / itemsPerPage);
         pagination.innerHTML = ''; // Clear existing pagination buttons
     
         const visiblePages = 5; // Number of page buttons to display at a time
@@ -132,8 +162,8 @@ document.addEventListener('DOMContentLoaded', function() {
         lastButton.addEventListener('click', () => displayPage(totalPages));
         pagination.appendChild(lastButton);
     }
-    
-    
+
+    document.getElementById('applyFilters').addEventListener('click', applyFilters);
 
     fetchAllListings(); // Start by fetching all listings
 });
