@@ -1,11 +1,6 @@
 body {
     font-family: Arial, sans-serif;
-}
-
-.container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
+    display: flex;
 }
 
 button {
@@ -17,16 +12,50 @@ button {
     cursor: pointer;
 }
 
-button:hover {
-    background-color: #7b04a3;
+.filters {
+    position: fixed;
+    top: 50%;
+    left: 20px; /* Adjust this to fit your design */
+    transform: translateY(-50%); /* Centers the filters vertically */
+    padding: 20px;
+    background-color: #f4f4f4;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
 }
 
-pre {
-    background-color: #f4f4f4;
-    padding: 15px;
-    border-radius: 5px;
-    margin-top: 20px;
-    overflow-x: auto;
+.filters label {
+    margin-right: 10px;
+    display: block;
+}
+
+.filters select, .filters input {
+    margin-bottom: 10px;
+    padding: 5px;
+    display: block;
+    width: 100%; /* Make inputs and selects full width */
+}
+
+.filters button {
+    padding: 5px 15px;
+    background-color: #7b04a3;
+    color: #f4f4f4;
+    border: none;
+    cursor: pointer;
+}
+
+.filters button:hover {
+    background-color: #6e0491;
+}
+
+.container {
+    margin-left: 280px; /* Space for the fixed filter sidebar */
+    padding: 20px;
+    width: calc(100% - 280px); /* Adjust width to avoid overlapping */
+}
+
+.container h1 {
+    font-size: 24px; /* Adjust font size as needed */
+    text-align: center; /* Center-align text within the container */
 }
 
 table {
@@ -34,23 +63,28 @@ table {
     border-collapse: collapse;
     background-color: #e2dede;
 }
+
 th, td {
     padding: 8px;
     border: 1px solid #292929;
 }
+
 th {
     background-color: #7b04a3;
     color: #e2dede;
     font-weight: bold;
 }
+
 .expanded {
     display: none;
     padding: 10px;
     background-color: #f9f9f9;
 }
+
 .expanded.visible {
     display: table-row;
 }
+
 .loading {
     display: none;
     position: fixed;
@@ -62,65 +96,43 @@ th {
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0,0,0,0.2);
 }
+
 .loading.active {
     display: block;
 }
 
 .pagination {
-display: flex;
-justify-content: center;
-margin-top: 20px;
-/*flex-wrap: wrap; Allows wrapping if needed */
-gap: 8px;
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    gap: 8px;
 }
 
 .pagination button {
-padding: 5px 10px;
-margin: 0 2px;
-border: none;
-background-color: #7b04a3;
-color: #f4f4f4;
-cursor: pointer;
-/*flex: 1 1 auto; /* Allow buttons to shrink and grow */
-font-size: 14px; /* Smaller font size */
+    padding: 5px 10px;
+    margin: 0 2px;
+    border: none;
+    background-color: #7b04a3;
+    color: #f4f4f4;
+    cursor: pointer;
+    font-size: 14px;
 }
 
 .pagination button:disabled {
-background-color: #f4f4f4cd;
-cursor: not-allowed;
+    background-color: #f4f4f4cd;
+    cursor: not-allowed;
 }
 
 .pagination button.active {
-background-color: #6e0491b1;
+    background-color: #6e0491b1;
 }
 
-.pagination button:first-child,    /* << button */
-.pagination button:nth-child(2),   /* < button */
+.pagination button:first-child, /* << button */
+.pagination button:nth-child(2), /* < button */
 .pagination button:nth-last-child(2), /* > button */
-.pagination button:last-child {    /* >> button */
-    border-radius: 50%; /* Make these buttons round */
-    padding: 5px; /* Adjust padding for round buttons */
-    width: 32px; /* Ensure round shape */
-    height: 32px; /* Ensure round shape */
-}
-
-.filters {
-    margin-bottom: 20px;
-}
-
-.filters label {
-    margin-right: 10px;
-}
-
-.filters select, .filters input {
-    margin-right: 20px;
+.pagination button:last-child { /* >> button */
+    border-radius: 50%;
     padding: 5px;
-}
-
-.filters button {
-    padding: 5px 15px;
-    background-color: #7b04a3;
-    color: #f4f4f4;
-    border: none;
-    cursor: pointer;
+    width: 32px;
+    height: 32px;
 }
