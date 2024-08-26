@@ -36,31 +36,32 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Apply filters
     function applyFilters() {
-        const bedrooms = document.getElementById('bedrooms').value;
-        const bathrooms = document.getElementById('bathrooms').value;
-        const maxPrice = document.getElementById('price').value;
+        const bedrooms = parseInt(document.getElementById('bedrooms').value, 10);
+        const bathrooms = parseInt(document.getElementById('bathrooms').value, 10);
+        const maxPrice = parseFloat(document.getElementById('price').value);
         const location = document.getElementById('location').value.toLowerCase();
         const area = document.getElementById('area').value.toLowerCase();
-        const pets = document.getElementById('pets').value;
-        const unitType = document.getElementById('unitType').value;
-        const parking = document.getElementById('parking').value;
-
+        const pets = document.getElementById('pets').value.toLowerCase();
+        const unitType = document.getElementById('unitType').value.toLowerCase();
+        const parking = parseInt(document.getElementById('parking').value, 10);
+    
         filteredListings = listings.filter(listing => {
             const listingPrice = parseFloat(listing.price.replace(/[$,]/g, ''));
             return (
-                (bedrooms === "" || Math.floor(listing.bedrooms) == bedrooms) &&
-                (bathrooms === "" || Math.floor(listing.bathrooms) == bathrooms) &&
-                (maxPrice === "" || listingPrice <= parseFloat(maxPrice)) &&
+                (isNaN(bedrooms) || parseInt(listing.bedrooms) === bedrooms) &&
+                (isNaN(bathrooms) || parseInt(listing.bathrooms) === bathrooms) &&
+                (isNaN(maxPrice) || listingPrice <= maxPrice) &&
                 (location === "" || listing.location.toLowerCase().includes(location)) &&
                 (area === "" || listing.area.toLowerCase().includes(area)) &&
-                (pets === "" || listing.petsFriendly.toLowerCase() === pets.toLowerCase()) &&
-                (unitType === "" || listing.unitType.toLowerCase() === unitType.toLowerCase()) &&
-                (parking === "" || listing.parking === parking)
+                (pets === "" || listing.petsFriendly.toLowerCase() === pets) &&
+                (unitType === "" || listing.unitType.toLowerCase() === unitType) &&
+                (isNaN(parking) || parseInt(listing.parking) === parking)
             );
         });
-
+    
         displayPage(1); // Reset to the first page after filtering
     }
+    
 
     // Clear all filters
     function clearFilters() {
@@ -107,7 +108,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         <strong>Unit Type:</strong> ${listing.unitType} <br>
                         <strong>Parking:</strong> ${listing.parking} <br>
                         <strong>Pet Friendly:</strong> ${listing.petsFriendly} <br>
-                        <strong>Description:</strong> ${listing.description} <br>
+                        <strong>Description:</strong> ${listing.description} <a href="${listing.link}">See Listing</a><br>
+
                     </div>
                 </td>
             `;
@@ -195,6 +197,26 @@ document.addEventListener('DOMContentLoaded', function() {
 
     document.getElementById('applyFilters').addEventListener('click', applyFilters);
     document.getElementById('clearFilters').addEventListener('click', clearFilters);
+
+    document.getElementById('analyzeButton').addEventListener('click', function() {
+        const queryParams = new URLSearchParams();
+    
+        queryParams.append('bedrooms', document.getElementById('bedrooms').value);
+        queryParams.append('bathrooms', document.getElementById('bathrooms').value);
+        queryParams.append('price', document.getElementById('price').value);
+        queryParams.append('location', document.getElementById('location').value);
+        queryParams.append('area', document.getElementById('area').value);
+        queryParams.append('pets', document.getElementById('pets').value);
+        queryParams.append('unitType', document.getElementById('unitType').value);
+        queryParams.append('parking', document.getElementById('parking').value);
+    
+        // Store the filtered listings in localStorage
+        localStorage.setItem('filteredListings', JSON.stringify(filteredListings));
+    
+        window.location.href = 'analysis.html?' + queryParams.toString();
+    });
+    
+    
 
     fetchAllListings(); // Start by fetching all listings
 });

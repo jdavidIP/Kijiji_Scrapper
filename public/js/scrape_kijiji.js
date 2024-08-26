@@ -45,6 +45,7 @@ async function scrapeKijijiBatch(startPage, endPage) {
                 const unitTypeElement = item.querySelector('li[aria-label="Unit type"] p');
                 const parkingElement = item.querySelector('li[aria-label="Parking included"] p');
                 const petsElement = item.querySelector('li[aria-label="Pets friendly"] p');
+                const linkElement = item.querySelector('a[data-testid="listing-link"]');
 
                 return {
                     title: titleElement ? titleElement.innerText.trim() : 'Title not found',
@@ -57,7 +58,8 @@ async function scrapeKijijiBatch(startPage, endPage) {
                     size: sizeElement ? sizeElement.innerText.trim() : 'Size not found',
                     unitType: unitTypeElement ? unitTypeElement.innerText.trim() : 'Unit Type not found',
                     parking: parkingElement ? parkingElement.innerText.trim() : 'Parking not found',
-                    petsFriendly: petsElement ? petsElement.innerText.trim() : 'Pets information not found'
+                    petsFriendly: petsElement ? petsElement.innerText.trim() : 'Pets information not found',
+                    link: linkElement ? `https://www.kijiji.ca${linkElement.getAttribute('href')}` : 'Link not found'
                 };
             });
         });
