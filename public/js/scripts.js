@@ -62,6 +62,21 @@ document.addEventListener('DOMContentLoaded', function() {
         displayPage(1); // Reset to the first page after filtering
     }
 
+    // Clear all filters
+    function clearFilters() {
+        document.getElementById('bedrooms').value = '';
+        document.getElementById('bathrooms').value = '';
+        document.getElementById('price').value = '';
+        document.getElementById('location').value = '';
+        document.getElementById('area').value = '';
+        document.getElementById('pets').value = '';
+        document.getElementById('unitType').value = '';
+        document.getElementById('parking').value = '';
+
+        filteredListings = listings; // Reset to all listings
+        displayPage(1); // Reset to the first page
+    }
+
     // Display a specific page of listings
     function displayPage(pageNum) {
         const startIndex = (pageNum - 1) * itemsPerPage;
@@ -164,6 +179,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     document.getElementById('applyFilters').addEventListener('click', applyFilters);
+    document.getElementById('clearFilters').addEventListener('click', clearFilters);
 
     fetchAllListings(); // Start by fetching all listings
 });
