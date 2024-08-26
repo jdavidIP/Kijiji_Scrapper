@@ -77,15 +77,14 @@ document.addEventListener('DOMContentLoaded', function() {
         displayPage(1); // Reset to the first page
     }
 
-    // Display a specific page of listings
     function displayPage(pageNum) {
         const startIndex = (pageNum - 1) * itemsPerPage;
         const endIndex = startIndex + itemsPerPage;
         const pageListings = filteredListings.slice(startIndex, endIndex);
-
+    
         const tbody = document.getElementById('listingsBody');
         tbody.innerHTML = ''; // Clear any existing rows
-
+    
         pageListings.forEach((listing, index) => {
             const tr = document.createElement('tr');
             tr.innerHTML = `
@@ -97,7 +96,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <td><button class="toggleDetails" data-index="${startIndex + index}">Show Details</button></td>
             `;
             tbody.appendChild(tr);
-
+    
             const trExpanded = document.createElement('tr');
             trExpanded.classList.add('expanded');
             trExpanded.innerHTML = `
@@ -113,17 +112,33 @@ document.addEventListener('DOMContentLoaded', function() {
                 </td>
             `;
             tbody.appendChild(trExpanded);
-
+    
             tr.querySelector('.toggleDetails').addEventListener('click', function() {
                 trExpanded.classList.toggle('visible');
                 this.textContent = trExpanded.classList.contains('visible') ? 'Hide Details' : 'Show Details';
             });
         });
-
+    
         currentPage = pageNum;
         updatePagination();
+        updateAveragePrice(); // Call function to update average price
     }
-
+    
+    function updateAveragePrice() {
+        if (filteredListings.length === 0) {
+            document.getElementById('averagePrice').textContent = 'Average Price: N/A';
+            return;
+        }
+    
+        const total = filteredListings.reduce((sum, listing) => {
+            const price = parseFloat(listing.price.replace(/[$,]/g, ''));
+            return sum + (isNaN(price) ? 0 : price);
+        }, 0);
+    
+        const average = total / filteredListings.length;
+        document.getElementById('averagePrice').textContent = `Average Price: $${average.toFixed(2)}`;
+    }
+    
     // Update the pagination buttons
     function updatePagination() {
         const totalPages = Math.ceil(filteredListings.length / itemsPerPage);
