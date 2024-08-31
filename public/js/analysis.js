@@ -92,20 +92,12 @@ function populateDropdowns() {
         const unitTypeTitle = document.createElement('h5');
         unitTypeTitle.textContent = `${unitTypeData.unitType}`;
         unitTypeTitle.classList.add('unitType-title');
-        unitTypeTitle.addEventListener('click', toggleDropdown); // Add toggle function
+        unitTypeTitle.addEventListener('click', () => showListings(unitTypeData.listings, unitTypeDiv)); // Show listings on click
         unitTypeDiv.appendChild(unitTypeTitle);
 
         const unitTypePrice = document.createElement('span');
         unitTypePrice.textContent = `Average Price: $${unitTypeData.averagePrice}`;
         unitTypeTitle.appendChild(unitTypePrice);
-
-        const filtersContainer = document.createElement('div');
-        filtersContainer.className = 'filters-container';
-        filtersContainer.style.display = 'none'; // Hide initially
-        unitTypeDiv.appendChild(filtersContainer);
-
-        // Create and append filter elements dynamically
-        createFilters(filtersContainer, unitTypeData.listings);
 
         unitTypeContainer.appendChild(unitTypeDiv);
       });
@@ -126,123 +118,43 @@ function toggleDropdown(event) {
   }
 }
 
-// Function to create and append filter elements (bedrooms, bathrooms, parking, etc.)
-function createFilters(container, listings) {
-  const maxBedrooms = Math.max(...listings.map(listing => parseInt(listing.bedrooms, 10) || 0));
-  const maxBathrooms = Math.max(...listings.map(listing => parseInt(listing.bathrooms, 10) || 0));
-  const maxParking = Math.max(...listings.map(listing => parseInt(listing.parking, 10) || 0));
-
-  // Create Bedrooms Filter
-  const bedroomsLabel = document.createElement('label');
-  bedroomsLabel.textContent = 'Bedrooms:';
-  container.appendChild(bedroomsLabel);
-
-  const bedroomsSelect = document.createElement('select');
-  for (let i = 1; i <= maxBedrooms; i++) {
-    const option = document.createElement('option');
-    option.value = i;
-    option.textContent = `${i} bedroom${i > 1 ? 's' : ''}`;
-    bedroomsSelect.appendChild(option);
+// Function to display listings
+function showListings(listings, container) {
+  // Clear any existing listings
+  const existingListings = container.querySelector('.listings');
+  if (existingListings) {
+    existingListings.remove();
   }
-  container.appendChild(bedroomsSelect);
 
-  // Create Bathrooms Filter
-  const bathroomsLabel = document.createElement('label');
-  bathroomsLabel.textContent = 'Bathrooms:';
-  container.appendChild(bathroomsLabel);
+  // Create a new container for the listings
+  const listingsContainer = document.createElement('div');
+  listingsContainer.className = 'listings';
+  listings.forEach(listing => {
+    const listingDiv = document.createElement('div');
+    listingDiv.className = 'listing';
 
-  const bathroomsSelect = document.createElement('select');
-  for (let i = 1; i <= maxBathrooms; i++) {
-    const option = document.createElement('option');
-    option.value = i;
-    option.textContent = `${i} bathroom${i > 1 ? 's' : ''}`;
-    bathroomsSelect.appendChild(option);
-  }
-  container.appendChild(bathroomsSelect);
+    const listingTitle = document.createElement('h6');
+    listingTitle.textContent = listing.title;
+    listingDiv.appendChild(listingTitle);
 
-  // Create Parking Filter
-  const parkingLabel = document.createElement('label');
-  parkingLabel.textContent = 'Parking:';
-  container.appendChild(parkingLabel);
+    const listingDetails = document.createElement('p');
+    listingDetails.innerHTML = `
+      Price: ${listing.price}<br>
+      Location: ${listing.location}<br>
+      Area: ${listing.area}<br>
+      Bedrooms: ${listing.bedrooms}<br>
+      Bathrooms: ${listing.bathrooms}<br>
+      Size: ${listing.size}<br>
+      Parking: ${listing.parking}<br>
+      Pets Friendly: ${listing.petsFriendly}<br>
+      <a href="${listing.link}">View Listing</a>
+    `;
+    listingDiv.appendChild(listingDetails);
 
-  const parkingSelect = document.createElement('select');
-  for (let i = 0; i <= maxParking; i++) {
-    const option = document.createElement('option');
-    option.value = i;
-    option.textContent = `${i} parking space${i > 1 ? 's' : ''}`;
-    parkingSelect.appendChild(option);
-  }
-  container.appendChild(parkingSelect);
-
-  // Create Pets Friendly Filter
-  const petsLabel = document.createElement('label');
-  petsLabel.textContent = 'Pets Friendly:';
-  container.appendChild(petsLabel);
-
-  const petsSelect = document.createElement('select');
-  ['Yes', 'No'].forEach(optionValue => {
-    const option = document.createElement('option');
-    option.value = optionValue;
-    option.textContent = optionValue;
-    petsSelect.appendChild(option);
-  });
-  container.appendChild(petsSelect);
-
-  // Apply Filters Button
-  const applyButton = document.createElement('button');
-  applyButton.textContent = 'Apply Filters';
-  applyButton.className = 'apply-button';
-  applyButton.addEventListener('click', () => {
-    updateFilteredPrice(container, listings, {
-      bedrooms: bedroomsSelect.value,
-      bathrooms: bathroomsSelect.value,
-      parking: parkingSelect.value,
-      petsFriendly: petsSelect.value
-    });
-  });
-  container.appendChild(applyButton);
-
-  // Clear Filters Button
-  const clearButton = document.createElement('button');
-  clearButton.textContent = 'Clear Filters';
-  clearButton.className = 'clear-button';
-  clearButton.addEventListener('click', () => {
-    bedroomsSelect.selectedIndex = 0;
-    bathroomsSelect.selectedIndex = 0;
-    parkingSelect.selectedIndex = 0;
-    petsSelect.selectedIndex = 0;
-    updateFilteredPrice(container, listings, {
-      bedrooms: 0,
-      bathrooms: 0,
-      parking: 0,
-      petsFriendly: 'No'
-    });
-  });
-  container.appendChild(clearButton);
-}
-
-// Function to update the price based on selected filters
-function updateFilteredPrice(container, listings, filters) {
-  const filteredListings = listings.filter(listing => {
-    return (
-      parseInt(listing.bedrooms, 10) >= filters.bedrooms &&
-      parseInt(listing.bathrooms, 10) >= filters.bathrooms &&
-      parseInt(listing.parking, 10) >= filters.parking &&
-      (filters.petsFriendly === 'Yes' ? listing.petsFriendly === "Yes" : true)
-    );
+    listingsContainer.appendChild(listingDiv);
   });
 
-  const averagePrice = calculateAveragePrice(filteredListings);
-  const priceSpan = container.querySelector('.filtered-price');
-
-  if (!priceSpan) {
-    const newPriceSpan = document.createElement('span');
-    newPriceSpan.className = 'filtered-price';
-    newPriceSpan.textContent = `Filtered Avg Price: $${averagePrice}`;
-    container.appendChild(newPriceSpan);
-  } else {
-    priceSpan.textContent = `Filtered Avg Price: $${averagePrice}`;
-  }
+  container.appendChild(listingsContainer);
 }
 
 // Initialize dropdowns and populate the structure on page load
